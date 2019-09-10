@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+message UrlKeyStat {
+    string url = 1;
+    int64 HitCount = 2;
+}
+
+message UrlKeyStats {
+    repeated UrlKeyStat stats = 1;
+}
+
+
+message CreationResult {
+    enum Status {
+        OK = 0;
+        CONFLICT = 1;
+        ERROR = 2;
+    }
+
+    Status status = 1;
+}
+
+message OriginalUrlRequest {
+    string originalUrl = 1;
+}
+
+message OriginalUrlResponse {
+    string originalUrl = 1;
+}
+
+message ShortenedlUrlRequest {
+    string shortenedlUrl = 1;
+}
+
+message StatisticRequest {
+}
+
+service UrlShortener {
+    rpc GetStatistic (StatisticRequest) returns (stream UrlKeyStat);
+    rpc Create (OriginalUrlRequest) returns (CreationResult);
+    rpc GetOriginalUrl (ShortenedlUrlRequest) returns (OriginalUrlResponse);
+}
